@@ -1,0 +1,1798 @@
+  [1m[35m (588.5ms)[0m  [1m[35mCREATE DATABASE "RemoteEDU_backend_development" ENCODING = 'unicode'[0m
+  [1m[35m (217.3ms)[0m  [1m[35mCREATE DATABASE "RemoteEDU_backend_test" ENCODING = 'unicode'[0m
+  [1m[35m (13.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (31.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1865014717758178035)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20200923182613)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "full_name" character varying, "email" character varying, "password_digest" character varying, "is_teacher" boolean DEFAULT FALSE, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (3.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200923182613"]]
+  [1m[35m (23.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCourses (20200923182725)
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (45.5ms)[0m  [1m[35mCREATE TABLE "courses" ("id" bigserial primary key, "title" character varying, "length" character varying, "student_count" integer, "student_cap" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200923182725"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateMeetings (20200923182816)
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (38.3ms)[0m  [1m[35mCREATE TABLE "meetings" ("id" bigserial primary key, "date" character varying, "time" character varying, "link" character varying, "course_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200923182816"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateUserCourses (20200923182907)
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (31.4ms)[0m  [1m[35mCREATE TABLE "user_courses" ("id" bigserial primary key, "user_id" integer, "course_id" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (2.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200923182907"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (26.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-09-23 18:31:39.332691"], ["updated_at", "2020-09-23 18:31:39.332691"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(1865014717758178035)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (22.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[36mMeeting Load (3.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  [1m[36mUserCourse Load (28.0ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  [1m[35m (19.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (5.1ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Alex Beciana"], ["email", "alexbeciana@gmail.com"], ["password_digest", "password"], ["is_teacher", true], ["created_at", "2020-09-23 20:20:39.269542"], ["updated_at", "2020-09-23 20:20:39.269542"]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Michael Horowitz"], ["email", "mjhorowitz714@yahool.com"], ["password_digest", "password"], ["created_at", "2020-09-23 20:20:39.302074"], ["updated_at", "2020-09-23 20:20:39.302074"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (3.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (15.7ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Ruby 00"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:20:39.339313"], ["updated_at", "2020-09-23 20:20:39.339313"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (25.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Rails"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:20:39.363925"], ["updated_at", "2020-09-23 20:20:39.363925"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Almost Filled"], ["length", "3 weeks"], ["student_count", 28], ["student_cap", 30], ["created_at", "2020-09-23 20:20:39.393774"], ["updated_at", "2020-09-23 20:20:39.393774"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (25.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+Started GET "/" for ::1 at 2020-09-23 16:23:30 -0400
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/michaelhorowitz/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/michaelhorowitz/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 29.6ms | Allocations: 480)
+Completed 200 OK in 88ms (Views: 64.4ms | ActiveRecord: 0.0ms | Allocations: 2631)
+
+
+Started GET "/" for 127.0.0.1 at 2020-09-23 16:23:33 -0400
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/michaelhorowitz/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/michaelhorowitz/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 21.5ms | Allocations: 191)
+Completed 200 OK in 25ms (Views: 23.5ms | ActiveRecord: 0.0ms | Allocations: 725)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:23:36 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 16ms (ActiveRecord: 0.0ms | Allocations: 1909)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:23:37 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 198)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:23:48 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 29ms (ActiveRecord: 0.0ms | Allocations: 1672)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/meetings" for 127.0.0.1 at 2020-09-23 16:23:48 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (20.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+Completed 200 OK in 90ms (Views: 5.0ms | ActiveRecord: 78.1ms | Allocations: 1999)
+
+
+Started GET "/meetings" for 127.0.0.1 at 2020-09-23 16:23:48 -0400
+Processing by MeetingsController#index as */*
+  [1m[36mMeeting Load (0.4ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.4ms | Allocations: 831)
+
+
+Started GET "/meetings" for 127.0.0.1 at 2020-09-23 16:23:53 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (1.8ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+Completed 200 OK in 6ms (Views: 4.2ms | ActiveRecord: 1.8ms | Allocations: 839)
+
+
+Started GET "/favicon.ico" for 127.0.0.1 at 2020-09-23 16:23:53 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+actionpack (6.0.3.3) lib/action_dispatch/middleware/debug_exceptions.rb:36:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.3.3) lib/rails/rack/logger.rb:37:in `call_app'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.2.3) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.3.3) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.2.3) lib/rack/sendfile.rb:110:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/host_authorization.rb:82:in `call'
+railties (6.0.3.3) lib/rails/engine.rb:527:in `call'
+puma (4.3.6) lib/puma/configuration.rb:228:in `call'
+puma (4.3.6) lib/puma/server.rb:713:in `handle_request'
+puma (4.3.6) lib/puma/server.rb:472:in `process_client'
+puma (4.3.6) lib/puma/server.rb:328:in `block in run'
+puma (4.3.6) lib/puma/thread_pool.rb:134:in `block in spawn_thread'
+Started GET "/meeting" for 127.0.0.1 at 2020-09-23 16:23:55 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/meeting"):
+  
+actionpack (6.0.3.3) lib/action_dispatch/middleware/debug_exceptions.rb:36:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.3.3) lib/rails/rack/logger.rb:37:in `call_app'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.2.3) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.3.3) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.2.3) lib/rack/sendfile.rb:110:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/host_authorization.rb:82:in `call'
+railties (6.0.3.3) lib/rails/engine.rb:527:in `call'
+puma (4.3.6) lib/puma/configuration.rb:228:in `call'
+puma (4.3.6) lib/puma/server.rb:713:in `handle_request'
+puma (4.3.6) lib/puma/server.rb:472:in `process_client'
+puma (4.3.6) lib/puma/server.rb:328:in `block in run'
+puma (4.3.6) lib/puma/thread_pool.rb:134:in `block in spawn_thread'
+Started GET "/meetings" for ::1 at 2020-09-23 16:23:56 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (4.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+Completed 200 OK in 8ms (Views: 2.9ms | ActiveRecord: 4.0ms | Allocations: 820)
+
+
+Started GET "/user_courses" for 127.0.0.1 at 2020-09-23 16:24:12 -0400
+Processing by UserCoursesController#index as HTML
+  [1m[36mUserCourse Load (44.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  ↳ app/controllers/user_courses_controller.rb:4:in `index'
+Completed 200 OK in 55ms (Views: 3.6ms | ActiveRecord: 46.8ms | Allocations: 1779)
+
+
+Started GET "/user_courses" for 127.0.0.1 at 2020-09-23 16:24:12 -0400
+Processing by UserCoursesController#index as */*
+  [1m[36mUserCourse Load (131.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  ↳ app/controllers/user_courses_controller.rb:4:in `index'
+Completed 200 OK in 135ms (Views: 3.1ms | ActiveRecord: 131.8ms | Allocations: 818)
+
+
+Started GET "/courses" for 127.0.0.1 at 2020-09-23 16:24:20 -0400
+Processing by CoursesController#index as HTML
+Completed 500 Internal Server Error in 21ms (ActiveRecord: 0.0ms | Allocations: 1961)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>):
+  
+app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/controllers/courses_controller.rb:5:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:28:44 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 51ms (ActiveRecord: 0.0ms | Allocations: 1663)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:29:00 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 198)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:29:01 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms | Allocations: 198)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:30:24 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 21ms (ActiveRecord: 0.0ms | Allocations: 1663)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:30:29 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms | Allocations: 198)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+... :except => [:password_digest])
+...                              ^):
+  
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/services/user_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:19: syntax error, unexpected ')', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:30:35 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (14.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 176ms (Views: 0.1ms | ActiveRecord: 113.5ms | Allocations: 7316)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:31:11 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 12ms (ActiveRecord: 0.0ms | Allocations: 1533)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:31:21 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms | Allocations: 208)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:31:27 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 13ms (ActiveRecord: 0.0ms | Allocations: 1533)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:31:36 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms | Allocations: 208)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/services/user_serializer.rb:10: syntax error, unexpected '\n', expecting =>
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/favicon.ico" for ::1 at 2020-09-23 16:31:36 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+actionpack (6.0.3.3) lib/action_dispatch/middleware/debug_exceptions.rb:36:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.3.3) lib/rails/rack/logger.rb:37:in `call_app'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.2.3) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.3.3) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.2.3) lib/rack/sendfile.rb:110:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/host_authorization.rb:82:in `call'
+railties (6.0.3.3) lib/rails/engine.rb:527:in `call'
+puma (4.3.6) lib/puma/configuration.rb:228:in `call'
+puma (4.3.6) lib/puma/server.rb:713:in `handle_request'
+puma (4.3.6) lib/puma/server.rb:472:in `process_client'
+puma (4.3.6) lib/puma/server.rb:328:in `block in run'
+puma (4.3.6) lib/puma/thread_pool.rb:134:in `block in spawn_thread'
+Started GET "/users" for ::1 at 2020-09-23 16:32:45 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.0ms | Allocations: 1535)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+                :user_courses, :except => [:created_at, :up...
+                             ^
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+            }
+            ^):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:32:46 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms | Allocations: 208)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+                :user_courses, :except => [:created_at, :up...
+                             ^
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+            }
+            ^):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:32:56 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 0.0ms | Allocations: 1533)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+                :courses, :except => [:created_at, :up...
+                        ^
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+            }
+            ^):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:32:57 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms | Allocations: 208)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+                :courses, :except => [:created_at, :up...
+                        ^
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+            }
+            ^):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:33:15 -0400
+Started GET "/users" for ::1 at 2020-09-23 16:33:15 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 23ms (ActiveRecord: 0.0ms | Allocations: 1533)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+                :courses, :except => [:created_at, :up...
+                        ^
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+            }
+            ^):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.0ms | Allocations: 1533)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+                :courses, :except => [:created_at, :up...
+                        ^
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+            }
+            ^):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:33:41 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 208)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+                :courses, :except => [:created_at, :up...
+                        ^
+/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+            }
+            ^):
+  
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/services/user_serializer.rb:10: syntax error, unexpected ',', expecting =>
+app/services/user_serializer.rb:11: syntax error, unexpected '}', expecting end
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:33:45 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (20.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (0.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses" INNER JOIN "user_courses" ON "courses"."id" = "user_courses"."course_id" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (29.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses" INNER JOIN "user_courses" ON "courses"."id" = "user_courses"."course_id" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 432ms (Views: 0.2ms | ActiveRecord: 305.9ms | Allocations: 18878)
+
+
+Started GET "/users" for ::1 at 2020-09-23 16:33:48 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (52.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (1.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" INNER JOIN "user_courses" ON "courses"."id" = "user_courses"."course_id" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (1.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses" INNER JOIN "user_courses" ON "courses"."id" = "user_courses"."course_id" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 65ms (Views: 0.1ms | ActiveRecord: 55.4ms | Allocations: 3055)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:33:59 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.9ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 144ms (Views: 0.2ms | ActiveRecord: 59.2ms | Allocations: 9832)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:34:25 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (18.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.5ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (28.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 192ms (Views: 0.2ms | ActiveRecord: 128.5ms | Allocations: 9818)
+
+
+Started GET "/users" for ::1 at 2020-09-23 16:34:31 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (44.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 56ms (Views: 0.3ms | ActiveRecord: 45.2ms | Allocations: 2632)
+
+
+Started GET "/users" for ::1 at 2020-09-23 16:34:49 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (5.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.5ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 315ms (Views: 0.2ms | ActiveRecord: 118.5ms | Allocations: 9686)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:36:53 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (65.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.6ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 259ms (Views: 0.3ms | ActiveRecord: 187.3ms | Allocations: 9742)
+
+
+Started GET "/users" for ::1 at 2020-09-23 16:36:55 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (30.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (20.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (21.9ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 88ms (Views: 0.5ms | ActiveRecord: 72.6ms | Allocations: 2570)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:36:56 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (6.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (1.1ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 18ms (Views: 0.2ms | ActiveRecord: 8.1ms | Allocations: 2570)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:36:59 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (97.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.2ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.2ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 2]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 104ms (Views: 0.2ms | ActiveRecord: 97.5ms | Allocations: 2570)
+
+
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (31.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (45.0ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 1]]
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.5ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 2]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.5ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 1]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.4ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 2]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (24.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 3]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mMeeting Load (24.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  [1m[36mUserCourse Load (0.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Alex Beciana"], ["email", "alexbeciana@gmail.com"], ["password_digest", "password"], ["is_teacher", true], ["created_at", "2020-09-23 20:43:05.793399"], ["updated_at", "2020-09-23 20:43:05.793399"]]
+  [1m[35m (24.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Michael Horowitz"], ["email", "mjhorowitz714@yahool.com"], ["password_digest", "password"], ["created_at", "2020-09-23 20:43:05.831332"], ["updated_at", "2020-09-23 20:43:05.831332"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.6ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Ruby 00"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:43:05.838704"], ["updated_at", "2020-09-23 20:43:05.838704"]]
+  [1m[35m (2.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (27.3ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Rails"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:43:05.853171"], ["updated_at", "2020-09-23 20:43:05.853171"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (1.1ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Almost Filled"], ["length", "3 weeks"], ["student_count", 28], ["student_cap", 30], ["created_at", "2020-09-23 20:43:05.887450"], ["updated_at", "2020-09-23 20:43:05.887450"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+Started GET "/users" for ::1 at 2020-09-23 16:43:19 -0400
+  [1m[35m (36.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (19.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 3]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.5ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 4]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 166ms (Views: 0.3ms | ActiveRecord: 85.3ms | Allocations: 12582)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:43:20 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (9.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (5.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 3]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (85.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 4]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 108ms (Views: 0.2ms | ActiveRecord: 100.4ms | Allocations: 2590)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:43:22 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (27.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 3]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.5ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 4]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 38ms (Views: 0.1ms | ActiveRecord: 28.3ms | Allocations: 2590)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:43:22 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (3.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (36.1ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 3]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.2ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 4]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 46ms (Views: 0.1ms | ActiveRecord: 39.4ms | Allocations: 2570)
+
+
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUserCourse Load (0.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 11]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (3.6ms)[0m  [1m[34mSELECT "courses".* FROM "courses" INNER JOIN "user_courses" ON "courses"."id" = "user_courses"."course_id" WHERE "user_courses"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 11]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses" INNER JOIN "user_courses" ON "courses"."id" = "user_courses"."course_id" WHERE "user_courses"."user_id" = $1 LIMIT $2[0m  [["user_id", 3], ["LIMIT", 11]]
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (24.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.9ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 3]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.3ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 4]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 4]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 5]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 6]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mMeeting Load (22.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  [1m[36mUserCourse Load (0.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Alex Beciana"], ["email", "alexbeciana@gmail.com"], ["password_digest", "password"], ["is_teacher", true], ["created_at", "2020-09-23 20:48:54.104742"], ["updated_at", "2020-09-23 20:48:54.104742"]]
+  [1m[35m (26.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Michael Horowitz"], ["email", "mjhorowitz714@yahoo.com"], ["password_digest", "password"], ["created_at", "2020-09-23 20:48:54.146479"], ["updated_at", "2020-09-23 20:48:54.146479"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.6ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Ruby 00"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:48:54.152536"], ["updated_at", "2020-09-23 20:48:54.152536"]]
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (23.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.7ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Rails"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:48:54.166639"], ["updated_at", "2020-09-23 20:48:54.166639"]]
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Almost Filled"], ["length", "3 weeks"], ["student_count", 28], ["student_cap", 30], ["created_at", "2020-09-23 20:48:54.202812"], ["updated_at", "2020-09-23 20:48:54.202812"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.6ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (12.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.7ms)[0m  [1m[34mSELECT "courses".* FROM "courses" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (1.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" INNER JOIN "user_courses" ON "courses"."id" = "user_courses"."course_id" WHERE "user_courses"."user_id" = $1 LIMIT $2[0m  [["user_id", 5], ["LIMIT", 11]]
+  [1m[36mCourse Load (0.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[36mUserCourse Load (0.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.9ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 5]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (25.0ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 6]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.8ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (24.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.4ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 7]]
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 8]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (21.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (1.2ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 9]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mMeeting Load (0.8ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  [1m[36mUserCourse Load (0.6ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (25.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Alex Beciana"], ["email", "alexbeciana@gmail.com"], ["password_digest", "password"], ["is_teacher", true], ["created_at", "2020-09-23 20:50:24.015775"], ["updated_at", "2020-09-23 20:50:24.015775"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Michael Horowitz"], ["email", "mjhorowitz714@yahoo.com"], ["password_digest", "password"], ["created_at", "2020-09-23 20:50:24.048474"], ["updated_at", "2020-09-23 20:50:24.048474"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Ruby 00"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:50:24.056218"], ["updated_at", "2020-09-23 20:50:24.056218"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Rails"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:50:24.062351"], ["updated_at", "2020-09-23 20:50:24.062351"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (24.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Almost Filled"], ["length", "3 weeks"], ["student_count", 28], ["student_cap", 30], ["created_at", "2020-09-23 20:50:24.068462"], ["updated_at", "2020-09-23 20:50:24.068462"]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (12.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUserCourse Load (0.7ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.6ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 7]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (25.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 8]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.6ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 10]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.4ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 11]]
+  [1m[35m (25.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (25.6ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 12]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mMeeting Load (0.8ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (20.6ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Alex Beciana"], ["email", "alexbeciana@gmail.com"], ["password_digest", "password"], ["is_teacher", true], ["created_at", "2020-09-23 20:51:07.211503"], ["updated_at", "2020-09-23 20:51:07.211503"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Michael Horowitz"], ["email", "mjhorowitz714@yahoo.com"], ["password_digest", "password"], ["created_at", "2020-09-23 20:51:07.248907"], ["updated_at", "2020-09-23 20:51:07.248907"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Ruby 00"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:51:07.255702"], ["updated_at", "2020-09-23 20:51:07.255702"]]
+  [1m[35m (26.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.6ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Rails"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:51:07.295936"], ["updated_at", "2020-09-23 20:51:07.295936"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Almost Filled"], ["length", "3 weeks"], ["student_count", 28], ["student_cap", 30], ["created_at", "2020-09-23 20:51:07.302581"], ["updated_at", "2020-09-23 20:51:07.302581"]]
+  [1m[35m (10.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (22.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUserCourse Load (0.6ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[36mMeeting Load (2.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (1.5ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 9]]
+  [1m[35m (37.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.3ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 10]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (23.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.5ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 13]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 14]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (5.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.5ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 15]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mMeeting Load (0.6ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  [1m[36mUserCourse Load (0.7ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  [1m[35m (23.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Alex Beciana"], ["email", "alexbeciana@gmail.com"], ["password_digest", "password"], ["is_teacher", true], ["created_at", "2020-09-23 20:53:25.672703"], ["updated_at", "2020-09-23 20:53:25.672703"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Michael Horowitz"], ["email", "mjhorowitz714@yahoo.com"], ["password_digest", "password"], ["created_at", "2020-09-23 20:53:25.703962"], ["updated_at", "2020-09-23 20:53:25.703962"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (2.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (1.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Ruby 00"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:53:25.710148"], ["updated_at", "2020-09-23 20:53:25.710148"]]
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (24.8ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Rails"], ["length", "3 weeks"], ["student_count", 25], ["student_cap", 30], ["created_at", "2020-09-23 20:53:25.721812"], ["updated_at", "2020-09-23 20:53:25.721812"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Almost Filled"], ["length", "3 weeks"], ["student_count", 28], ["student_cap", 30], ["created_at", "2020-09-23 20:53:25.752983"], ["updated_at", "2020-09-23 20:53:25.752983"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (14.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (1.6ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 12], ["course_id", 17], ["created_at", "2020-09-23 20:53:25.863927"], ["updated_at", "2020-09-23 20:53:25.863927"]]
+  [1m[35m (3.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.6ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 11], ["course_id", 16], ["created_at", "2020-09-23 20:53:25.921811"], ["updated_at", "2020-09-23 20:53:25.921811"]]
+  [1m[35m (19.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mMeeting Create (0.5ms)[0m  [1m[32mINSERT INTO "meetings" ("date", "time", "link", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["date", "9/29/20"], ["time", "4:20 PM"], ["link", "https://www.youtube.com/watch?v=dQw4w9WgXcQ"], ["course_id", 17], ["created_at", "2020-09-23 20:53:26.014651"], ["updated_at", "2020-09-23 20:53:26.014651"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mMeeting Create (25.1ms)[0m  [1m[32mINSERT INTO "meetings" ("date", "time", "link", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["date", "4/20/21"], ["time", "4:20 PM"], ["link", "https://www.youtube.com/watch?v=d1JA-nh0IfI"], ["course_id", 16], ["created_at", "2020-09-23 20:53:26.023325"], ["updated_at", "2020-09-23 20:53:26.023325"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" LIMIT $1[0m  [["LIMIT", 11]]
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:53:52 -0400
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (8.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 500 Internal Server Error in 121ms (ActiveRecord: 46.2ms | Allocations: 17195)
+
+
+  
+NoMethodError (undefined method `courses' for #<UserCourse:0x00007fde2bcd8168>
+Did you mean?  course
+               course=):
+  
+app/services/user_serializer.rb:8:in `to_serialized_json'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:53:54 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (38.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (41.0ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 500 Internal Server Error in 103ms (ActiveRecord: 79.0ms | Allocations: 3882)
+
+
+  
+NoMethodError (undefined method `courses' for #<UserCourse:0x00007fde2b588868>
+Did you mean?  course
+               course=):
+  
+app/services/user_serializer.rb:8:in `to_serialized_json'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:53:59 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (26.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (45.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 500 Internal Server Error in 93ms (ActiveRecord: 72.6ms | Allocations: 3882)
+
+
+  
+NoMethodError (undefined method `courses' for #<UserCourse:0x00007fde2cb355d0>
+Did you mean?  course
+               course=):
+  
+app/services/user_serializer.rb:8:in `to_serialized_json'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:54:26 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (21.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (0.7ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.6ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 12]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (20.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 255ms (Views: 0.4ms | ActiveRecord: 83.5ms | Allocations: 21495)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:54:30 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (55.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (32.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (17.9ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (23.9ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 12]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (6.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 159ms (Views: 0.2ms | ActiveRecord: 136.9ms | Allocations: 4738)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:56:22 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (12.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (27.6ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.5ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 12]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (3.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 64ms (Views: 0.1ms | ActiveRecord: 44.9ms | Allocations: 4715)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:56:27 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.4ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 500 Internal Server Error in 342ms (ActiveRecord: 81.1ms | Allocations: 21468)
+
+
+  
+NoMethodError (undefined method `meeting' for #<Course:0x00007fde2b60a700>
+Did you mean?  meetings
+               meetings=):
+  
+app/services/user_serializer.rb:8:in `to_serialized_json'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:56:28 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (27.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (1.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (6.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 500 Internal Server Error in 64ms (ActiveRecord: 35.2ms | Allocations: 4944)
+
+
+  
+NoMethodError (undefined method `meeting' for #<Course:0x00007fde2f1ff490>
+Did you mean?  meetings
+               meetings=):
+  
+app/services/user_serializer.rb:8:in `to_serialized_json'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:56:39 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (27.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:56:40 -0400
+  [1m[36mUserCourse Load (45.8ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (24.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (1.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 16]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 500 Internal Server Error in 361ms (ActiveRecord: 198.7ms | Allocations: 27739)
+
+
+  
+NoMethodError (undefined method `except' for #<UserCourse:0x00007fde2cba4cc8>
+Did you mean?  exec):
+  
+app/services/user_serializer.rb:8:in `to_serialized_json'
+app/controllers/users_controller.rb:4:in `index'
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (18.5ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (0.4ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 16]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 500 Internal Server Error in 328ms (ActiveRecord: 131.7ms | Allocations: 27305)
+
+
+  
+NoMethodError (undefined method `except' for #<UserCourse:0x00007fde2bed7d88>
+Did you mean?  exec):
+  
+app/services/user_serializer.rb:8:in `to_serialized_json'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-23 16:57:09 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (12.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (0.3ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (1.1ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (0.9ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 16]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (1.5ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 12]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (15.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (2.3ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 17]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 486ms (Views: 0.5ms | ActiveRecord: 204.1ms | Allocations: 28509)
+
+
+Started GET "/users" for 127.0.0.1 at 2020-09-23 16:57:12 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (2.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (3.0ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 11]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (0.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (27.9ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 16]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mUserCourse Load (13.7ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses" WHERE "user_courses"."user_id" = $1[0m  [["user_id", 12]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mCourse Load (23.1ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (0.3ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 17]]
+  ↳ app/services/user_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 97ms (Views: 0.1ms | ActiveRecord: 71.2ms | Allocations: 6888)
+
+
+Started GET "/courses" for 127.0.0.1 at 2020-09-23 17:01:33 -0400
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CoursesController#index as HTML
+Completed 500 Internal Server Error in 27ms (ActiveRecord: 0.0ms | Allocations: 2442)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>):
+  
+app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/controllers/courses_controller.rb:5:in `index'
+Started GET "/courses" for 127.0.0.1 at 2020-09-23 17:01:36 -0400
+Processing by CoursesController#index as HTML
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms | Allocations: 206)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>):
+  
+app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/services/course_serializer.rb:14: syntax error, unexpected '\n', expecting =>
+app/controllers/courses_controller.rb:5:in `index'
+Started GET "/courses" for 127.0.0.1 at 2020-09-23 17:03:51 -0400
+Processing by CoursesController#index as HTML
+  [1m[36mCourse Load (27.1ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  ↳ app/services/course_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (0.8ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 16]]
+  ↳ app/services/course_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (21.4ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 17]]
+  ↳ app/services/course_serializer.rb:8:in `to_serialized_json'
+  [1m[36mMeeting Load (24.9ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."course_id" = $1[0m  [["course_id", 18]]
+  ↳ app/services/course_serializer.rb:8:in `to_serialized_json'
+Completed 200 OK in 202ms (Views: 0.3ms | ActiveRecord: 96.7ms | Allocations: 18330)
+
+
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.6ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 11]]
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (32.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 12]]
+  [1m[35m (22.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.6ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (24.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 16]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 17]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (22.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Destroy (0.4ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = $1[0m  [["id", 18]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mMeeting Load (0.7ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  [1m[35m (24.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mMeeting Destroy (0.3ms)[0m  [1m[31mDELETE FROM "meetings" WHERE "meetings"."id" = $1[0m  [["id", 1]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (4.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mMeeting Destroy (0.6ms)[0m  [1m[31mDELETE FROM "meetings" WHERE "meetings"."id" = $1[0m  [["id", 2]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUserCourse Load (2.9ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserCourse Destroy (0.4ms)[0m  [1m[31mDELETE FROM "user_courses" WHERE "user_courses"."id" = $1[0m  [["id", 1]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUserCourse Destroy (0.3ms)[0m  [1m[31mDELETE FROM "user_courses" WHERE "user_courses"."id" = $1[0m  [["id", 2]]
+  [1m[35m (4.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (25.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Alex Beciana"], ["email", "alexbeciana@gmail.com"], ["password_digest", "password"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:56.639353"], ["updated_at", "2020-09-23 21:26:56.639353"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Michael Horowitz"], ["email", "mjhorowitz714@yahoo.com"], ["password_digest", "password"], ["created_at", "2020-09-23 21:26:56.717529"], ["updated_at", "2020-09-23 21:26:56.717529"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (21.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Tammy Willms"], ["email", "wilmer.skiles@douglas.net"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:56.987566"], ["updated_at", "2020-09-23 21:26:56.987566"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "The Hon. Shelton Larson"], ["email", "yadira_jenkins@cremin-hintz.biz"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.018295"], ["updated_at", "2020-09-23 21:26:57.018295"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Miss Michel Denesik"], ["email", "daria_kris@heaney.biz"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.024340"], ["updated_at", "2020-09-23 21:26:57.024340"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Liliana Murray"], ["email", "collin.murphy@spinka.net"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.030895"], ["updated_at", "2020-09-23 21:26:57.030895"]]
+  [1m[35m (24.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Dewitt Hettinger"], ["email", "bud_bashirian@erdman-fritsch.info"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.060996"], ["updated_at", "2020-09-23 21:26:57.060996"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Bettye Towne"], ["email", "kacey.ward@oreilly.co"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.068609"], ["updated_at", "2020-09-23 21:26:57.068609"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Kurt Quigley"], ["email", "quintin_oreilly@abshire.com"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.074402"], ["updated_at", "2020-09-23 21:26:57.074402"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Lucien Kilback"], ["email", "jamaal@parker-runolfsdottir.info"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.079896"], ["updated_at", "2020-09-23 21:26:57.079896"]]
+  [1m[35m (25.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Ms. Shila Ankunding"], ["email", "opal@turcotte.co"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.114721"], ["updated_at", "2020-09-23 21:26:57.114721"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Chandra Hermiston"], ["email", "gerry.prohaska@deckow.org"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.122388"], ["updated_at", "2020-09-23 21:26:57.122388"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Issac O'Hara"], ["email", "windy.frami@bernier.info"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.129108"], ["updated_at", "2020-09-23 21:26:57.129108"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (23.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Clement Hilpert"], ["email", "jackie.bradtke@heller-bernier.co"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.135316"], ["updated_at", "2020-09-23 21:26:57.135316"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Morgan Shields PhD"], ["email", "jess@fahey.io"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.164717"], ["updated_at", "2020-09-23 21:26:57.164717"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Krystle Smith DO"], ["email", "tricia_predovic@walsh.net"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.170960"], ["updated_at", "2020-09-23 21:26:57.170960"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Walter Padberg"], ["email", "rosa@weimann.name"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.177011"], ["updated_at", "2020-09-23 21:26:57.177011"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (24.9ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Simon Sipes"], ["email", "tristan@runolfsdottir-hegmann.name"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.182204"], ["updated_at", "2020-09-23 21:26:57.182204"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Edgardo O'Hara"], ["email", "fay@daniel-leffler.info"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.216666"], ["updated_at", "2020-09-23 21:26:57.216666"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Lila Hammes VM"], ["email", "giovanna@romaguera-bartell.info"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.223523"], ["updated_at", "2020-09-23 21:26:57.223523"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Sal Beer"], ["email", "ray_conn@hahn.info"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.229635"], ["updated_at", "2020-09-23 21:26:57.229635"]]
+  [1m[35m (25.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["full_name", "Randy Erdman"], ["email", "lesley_sawayn@turcotte.biz"], ["password_digest", "student"], ["created_at", "2020-09-23 21:26:57.261354"], ["updated_at", "2020-09-23 21:26:57.261354"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Pres. Bryant Lemke"], ["email", "august.bogan@kiehn.name"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.268380"], ["updated_at", "2020-09-23 21:26:57.268380"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Fr. Daryl Nader"], ["email", "errol@heathcote.name"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.274917"], ["updated_at", "2020-09-23 21:26:57.274917"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Pres. Celena Streich"], ["email", "celine_bergnaum@keebler.co"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.280428"], ["updated_at", "2020-09-23 21:26:57.280428"]]
+  [1m[35m (26.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Dr. Jefferson Koss"], ["email", "marlene@ondricka.info"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.316072"], ["updated_at", "2020-09-23 21:26:57.316072"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Sen. Lillia Herzog"], ["email", "christy.gaylord@bernier.info"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.323394"], ["updated_at", "2020-09-23 21:26:57.323394"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Belkis Langosh"], ["email", "camellia@rosenbaum-armstrong.name"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.330395"], ["updated_at", "2020-09-23 21:26:57.330395"]]
+  [1m[35m (24.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Estelle Gorczany"], ["email", "isis_wiza@conn.info"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.361194"], ["updated_at", "2020-09-23 21:26:57.361194"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Ruben McKenzie"], ["email", "damion@crona.biz"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.367250"], ["updated_at", "2020-09-23 21:26:57.367250"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Lilly Kiehn"], ["email", "sheree_cummings@lubowitz.io"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.374029"], ["updated_at", "2020-09-23 21:26:57.374029"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("full_name", "email", "password_digest", "is_teacher", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["full_name", "Brice Hodkiewicz"], ["email", "marco@block.name"], ["password_digest", "teacher"], ["is_teacher", true], ["created_at", "2020-09-23 21:26:57.379987"], ["updated_at", "2020-09-23 21:26:57.379987"]]
+  [1m[35m (25.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (2.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (1.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Law 249"], ["length", "3 weeks"], ["student_count", 12], ["student_cap", 30], ["created_at", "2020-09-23 21:26:57.411727"], ["updated_at", "2020-09-23 21:26:57.411727"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (3.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Commerce 518"], ["length", "3 weeks"], ["student_count", 21], ["student_cap", 30], ["created_at", "2020-09-23 21:26:57.424025"], ["updated_at", "2020-09-23 21:26:57.424025"]]
+  [1m[35m (27.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.5ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Engineering 234"], ["length", "3 weeks"], ["student_count", 23], ["student_cap", 30], ["created_at", "2020-09-23 21:26:57.461588"], ["updated_at", "2020-09-23 21:26:57.461588"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (1.6ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Arts 222"], ["length", "3 weeks"], ["student_count", 10], ["student_cap", 30], ["created_at", "2020-09-23 21:26:57.468460"], ["updated_at", "2020-09-23 21:26:57.468460"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "courses" ("title", "length", "student_count", "student_cap", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["title", "Information Systems 358"], ["length", "3 weeks"], ["student_count", 12], ["student_cap", 30], ["created_at", "2020-09-23 21:26:57.476991"], ["updated_at", "2020-09-23 21:26:57.476991"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (28.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.6ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 25], ["course_id", 21], ["created_at", "2020-09-23 21:26:57.560511"], ["updated_at", "2020-09-23 21:26:57.560511"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (4.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 34], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.9ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 34], ["course_id", 20], ["created_at", "2020-09-23 21:26:57.580148"], ["updated_at", "2020-09-23 21:26:57.580148"]]
+  [1m[35m (25.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (8.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.7ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 18], ["course_id", 23], ["created_at", "2020-09-23 21:26:57.662238"], ["updated_at", "2020-09-23 21:26:57.662238"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 27], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 27], ["course_id", 23], ["created_at", "2020-09-23 21:26:57.676340"], ["updated_at", "2020-09-23 21:26:57.676340"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (24.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 30], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 30], ["course_id", 20], ["created_at", "2020-09-23 21:26:57.716501"], ["updated_at", "2020-09-23 21:26:57.716501"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.5ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 24], ["course_id", 22], ["created_at", "2020-09-23 21:26:57.731053"], ["updated_at", "2020-09-23 21:26:57.731053"]]
+  [1m[35m (74.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.6ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (1.2ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 19], ["course_id", 21], ["created_at", "2020-09-23 21:26:57.828136"], ["updated_at", "2020-09-23 21:26:57.828136"]]
+  [1m[35m (26.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 39], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 39], ["course_id", 19], ["created_at", "2020-09-23 21:26:57.876365"], ["updated_at", "2020-09-23 21:26:57.876365"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (23.8ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 27], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 27], ["course_id", 20], ["created_at", "2020-09-23 21:26:57.916958"], ["updated_at", "2020-09-23 21:26:57.916958"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.7ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 14], ["course_id", 22], ["created_at", "2020-09-23 21:26:57.932370"], ["updated_at", "2020-09-23 21:26:57.932370"]]
+  [1m[35m (24.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (1.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (1.1ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 38], ["course_id", 23], ["created_at", "2020-09-23 21:26:57.979634"], ["updated_at", "2020-09-23 21:26:57.979634"]]
+  [1m[35m (25.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 30], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (1.2ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 30], ["course_id", 21], ["created_at", "2020-09-23 21:26:58.021819"], ["updated_at", "2020-09-23 21:26:58.021819"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (25.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 14], ["course_id", 22], ["created_at", "2020-09-23 21:26:58.063185"], ["updated_at", "2020-09-23 21:26:58.063185"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.5ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 36], ["course_id", 21], ["created_at", "2020-09-23 21:26:58.076518"], ["updated_at", "2020-09-23 21:26:58.076518"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (24.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 40], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 40], ["course_id", 23], ["created_at", "2020-09-23 21:26:58.115235"], ["updated_at", "2020-09-23 21:26:58.115235"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 42], ["course_id", 20], ["created_at", "2020-09-23 21:26:58.128330"], ["updated_at", "2020-09-23 21:26:58.128330"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (23.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 35], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.6ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 35], ["course_id", 20], ["created_at", "2020-09-23 21:26:58.170073"], ["updated_at", "2020-09-23 21:26:58.170073"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (24.6ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 37], ["course_id", 23], ["created_at", "2020-09-23 21:26:58.184215"], ["updated_at", "2020-09-23 21:26:58.184215"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 35], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 35], ["course_id", 19], ["created_at", "2020-09-23 21:26:58.224836"], ["updated_at", "2020-09-23 21:26:58.224836"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (25.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.4ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 36], ["course_id", 21], ["created_at", "2020-09-23 21:26:58.263823"], ["updated_at", "2020-09-23 21:26:58.263823"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 25], ["LIMIT", 1]]
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mUserCourse Create (0.3ms)[0m  [1m[32mINSERT INTO "user_courses" ("user_id", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 25], ["course_id", 19], ["created_at", "2020-09-23 21:26:58.276929"], ["updated_at", "2020-09-23 21:26:58.276929"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1 OFFSET $2[0m  [["LIMIT", 1], ["OFFSET", 1]]
+  [1m[35m (18.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Load (0.3ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mMeeting Create (0.4ms)[0m  [1m[32mINSERT INTO "meetings" ("date", "time", "link", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["date", "2020-09-24"], ["time", "4:20 PM"], ["link", "https://www.youtube.com/watch?v=dQw4w9WgXcQ"], ["course_id", 20], ["created_at", "2020-09-23 21:26:58.313072"], ["updated_at", "2020-09-23 21:26:58.313072"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" ORDER BY "courses"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mCourse Load (0.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mMeeting Create (0.6ms)[0m  [1m[32mINSERT INTO "meetings" ("date", "time", "link", "course_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["date", "2021-04-20"], ["time", "4:20 PM"], ["link", "https://www.youtube.com/watch?v=d1JA-nh0IfI"], ["course_id", 19], ["created_at", "2020-09-23 21:26:58.321595"], ["updated_at", "2020-09-23 21:26:58.321595"]]
+  [1m[35m (0.6ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for 127.0.0.1 at 2020-09-24 11:23:20 -0400
+  [1m[35m (6.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/michaelhorowitz/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/michaelhorowitz/.rvm/gems/ruby-2.6.1/gems/railties-6.0.3.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 20.4ms | Allocations: 315)
+Completed 200 OK in 45ms (Views: 31.3ms | ActiveRecord: 0.0ms | Allocations: 1595)
+
+
+Started GET "/users" for ::1 at 2020-09-24 11:23:21 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 32ms (ActiveRecord: 0.0ms | Allocations: 2953)
+
+
+  
+NoMethodError (undefined method `attributes' for UserSerializer:Class
+Did you mean?  attr_writer):
+  
+app/serializers/user_serializer.rb:2:in `<class:UserSerializer>'
+app/serializers/user_serializer.rb:1:in `<main>'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/favicon.ico" for ::1 at 2020-09-24 11:23:23 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+actionpack (6.0.3.3) lib/action_dispatch/middleware/debug_exceptions.rb:36:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.3.3) lib/rails/rack/logger.rb:37:in `call_app'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.3.3) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.3.3) lib/rails/rack/logger.rb:26:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.2.3) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.3.3) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.2.3) lib/rack/sendfile.rb:110:in `call'
+actionpack (6.0.3.3) lib/action_dispatch/middleware/host_authorization.rb:82:in `call'
+railties (6.0.3.3) lib/rails/engine.rb:527:in `call'
+puma (4.3.6) lib/puma/configuration.rb:228:in `call'
+puma (4.3.6) lib/puma/server.rb:713:in `handle_request'
+puma (4.3.6) lib/puma/server.rb:472:in `process_client'
+puma (4.3.6) lib/puma/server.rb:328:in `block in run'
+puma (4.3.6) lib/puma/thread_pool.rb:134:in `block in spawn_thread'
+Started GET "/users" for 127.0.0.1 at 2020-09-24 11:23:25 -0400
+Processing by UsersController#index as HTML
+Completed 500 Internal Server Error in 0ms (ActiveRecord: 0.0ms | Allocations: 98)
+
+
+  
+ArgumentError (wrong number of arguments (given 1, expected 0)):
+  
+app/controllers/users_controller.rb:4:in `initialize'
+app/controllers/users_controller.rb:4:in `new'
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-24 11:24:19 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (7.3ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT $1[0m  [["LIMIT", 11]]
+Completed 500 Internal Server Error in 220ms (ActiveRecord: 0.0ms | Allocations: 9492)
+
+
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT $1[0m  [["LIMIT", 11]]
+  
+NoMethodError (undefined method `to_serialized_json' for #<UserSerializer:0x00007f84002542f8>):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-24 11:24:22 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (25.9ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT $1[0m  [["LIMIT", 11]]
+Completed 500 Internal Server Error in 36ms (ActiveRecord: 0.0ms | Allocations: 2458)
+
+
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT $1[0m  [["LIMIT", 11]]
+  
+NoMethodError (undefined method `to_serialized_json' for #<UserSerializer:0x00007f83fcf893c8>):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-24 11:27:36 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (34.25ms)
+Completed 500 Internal Server Error in 215ms (ActiveRecord: 106.1ms | Allocations: 14433)
+
+
+  
+NoMethodError (undefined method `course' for #<User:0x00007f84050fbf00>
+Did you mean?  courses
+               courses=):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-24 11:27:39 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (15.2ms)
+Completed 500 Internal Server Error in 22ms (ActiveRecord: 1.3ms | Allocations: 4551)
+
+
+  
+NoMethodError (undefined method `course' for #<User:0x00007f8400dea590>
+Did you mean?  courses
+               courses=):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-24 11:28:01 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (21.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (21.1ms)
+Completed 500 Internal Server Error in 111ms (ActiveRecord: 67.1ms | Allocations: 13674)
+
+
+  
+NoMethodError (undefined method `meetings' for #<User:0x00007f83fd2b31c0>):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-24 11:28:03 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (2.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (38.39ms)
+Completed 500 Internal Server Error in 70ms (ActiveRecord: 2.1ms | Allocations: 4514)
+
+
+  
+NoMethodError (undefined method `meetings' for #<User:0x00007f8400284480>):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-24 11:28:09 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (16.93ms)
+Completed 500 Internal Server Error in 84ms (ActiveRecord: 41.0ms | Allocations: 13109)
+
+
+  
+NoMethodError (undefined method `meeting' for #<User:0x00007f83fcf40a38>):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for ::1 at 2020-09-24 11:28:12 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (56.18ms)
+Completed 500 Internal Server Error in 64ms (ActiveRecord: 0.6ms | Allocations: 4511)
+
+
+  
+NoMethodError (undefined method `meeting' for #<User:0x00007f83fd2a9c10>):
+  
+app/controllers/users_controller.rb:4:in `index'
+Started GET "/users" for 127.0.0.1 at 2020-09-24 11:28:39 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (39.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (10.25ms)
+Completed 200 OK in 214ms (Views: 31.8ms | ActiveRecord: 174.9ms | Allocations: 10517)
+
+
+Started GET "/users" for ::1 at 2020-09-24 11:28:40 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (13.33ms)
+Completed 200 OK in 24ms (Views: 21.9ms | ActiveRecord: 1.8ms | Allocations: 4377)
+
+
+Started GET "/courses" for 127.0.0.1 at 2020-09-24 11:29:41 -0400
+Processing by CoursesController#index as HTML
+  [1m[36mCourse Load (5.4ms)[0m  [1m[34mSELECT "courses".* FROM "courses" LIMIT $1[0m  [["LIMIT", 11]]
+Completed 500 Internal Server Error in 87ms (ActiveRecord: 0.0ms | Allocations: 8663)
+
+
+  [1m[36mCACHE Course Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses" LIMIT $1[0m  [["LIMIT", 11]]
+  
+NoMethodError (undefined method `to_serialized_json' for #<CourseSerializer:0x00007f83fd3f5948>):
+  
+app/controllers/courses_controller.rb:5:in `index'
+Started GET "/users" for ::1 at 2020-09-24 11:29:48 -0400
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (38.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (43.41ms)
+Completed 200 OK in 125ms (Views: 72.1ms | ActiveRecord: 45.5ms | Allocations: 10249)
+
+
+Started GET "/courses" for 127.0.0.1 at 2020-09-24 11:30:27 -0400
+Processing by CoursesController#index as HTML
+  [1m[36mCourse Load (16.6ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  ↳ app/controllers/courses_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (1.2ms)
+Completed 200 OK in 89ms (Views: 15.8ms | ActiveRecord: 65.8ms | Allocations: 8100)
+
+
+Started GET "/meetings" for ::1 at 2020-09-24 11:30:36 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (44.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+No serializer found for resource: #<Meeting id: 3, date: "2020-09-24", time: "4:20 PM", link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", course_id: 20, created_at: "2020-09-23 21:26:58", updated_at: "2020-09-23 21:26:58">
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with Meeting::ActiveRecord_Relation (3.53ms)
+Completed 200 OK in 91ms (Views: 37.7ms | ActiveRecord: 49.4ms | Allocations: 6670)
+
+
+Started GET "/courses" for 127.0.0.1 at 2020-09-24 11:30:45 -0400
+Processing by CoursesController#index as HTML
+  [1m[36mCourse Load (1.8ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  ↳ app/controllers/courses_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (1.9ms)
+Completed 200 OK in 11ms (Views: 9.2ms | ActiveRecord: 1.8ms | Allocations: 1547)
+
+
+Started GET "/courses" for ::1 at 2020-09-24 11:30:51 -0400
+Processing by CoursesController#index as HTML
+  [1m[36mCourse Load (6.2ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  ↳ app/controllers/courses_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (1.53ms)
+Completed 200 OK in 11ms (Views: 4.8ms | ActiveRecord: 6.2ms | Allocations: 1547)
+
+
+Started GET "/meetings" for 127.0.0.1 at 2020-09-24 11:30:55 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (0.4ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+No serializer found for resource: #<Meeting id: 3, date: "2020-09-24", time: "4:20 PM", link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", course_id: 20, created_at: "2020-09-23 21:26:58", updated_at: "2020-09-23 21:26:58">
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with Meeting::ActiveRecord_Relation (0.42ms)
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.4ms | Allocations: 1321)
+
+
+Started GET "/meetings" for 127.0.0.1 at 2020-09-24 11:33:13 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (0.4ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+Completed 500 Internal Server Error in 72ms (ActiveRecord: 47.6ms | Allocations: 6273)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/serializers/meeting_serializer.rb:2: syntax error, unexpected ':', expecting end
+    attributes :date, :time : 
+                            ^):
+  
+app/serializers/meeting_serializer.rb:2: syntax error, unexpected ':', expecting end
+app/serializers/meeting_serializer.rb:2: syntax error, unexpected ':', expecting end
+app/controllers/meetings_controller.rb:5:in `index'
+Started GET "/user_courses" for 127.0.0.1 at 2020-09-24 11:33:21 -0400
+Processing by UserCoursesController#index as HTML
+  [1m[36mUserCourse Load (20.1ms)[0m  [1m[34mSELECT "user_courses".* FROM "user_courses"[0m
+  ↳ app/controllers/user_courses_controller.rb:4:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (3.53ms)
+Completed 200 OK in 85ms (Views: 27.0ms | ActiveRecord: 54.2ms | Allocations: 7186)
+
+
+Started GET "/courses" for ::1 at 2020-09-24 11:33:24 -0400
+Processing by CoursesController#index as HTML
+  [1m[36mCourse Load (32.1ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  ↳ app/controllers/courses_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (1.14ms)
+Completed 200 OK in 108ms (Views: 23.1ms | ActiveRecord: 78.4ms | Allocations: 7868)
+
+
+Started GET "/meetings" for ::1 at 2020-09-24 11:35:20 -0400
+Processing by MeetingsController#index as HTML
+Completed 500 Internal Server Error in 47ms (ActiveRecord: 0.0ms | Allocations: 732)
+
+
+  
+SyntaxError (/Users/michaelhorowitz/Development/code/Mod4/mod-4-project-withAlex/RemoteEDU-backend/app/serializers/meeting_serializer.rb:2: syntax error, unexpected ':', expecting end
+    attributes :date, :time : :link, :course_id
+                            ^):
+  
+app/serializers/meeting_serializer.rb:2: syntax error, unexpected ':', expecting end
+app/serializers/meeting_serializer.rb:2: syntax error, unexpected ':', expecting end
+app/controllers/meetings_controller.rb:5:in `index'
+Started GET "/meetings" for ::1 at 2020-09-24 11:35:43 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (14.9ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.75ms)
+Completed 200 OK in 206ms (Views: 69.0ms | ActiveRecord: 131.8ms | Allocations: 6591)
+
+
+Started GET "/meetings" for 127.0.0.1 at 2020-09-24 11:35:47 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (0.6ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.92ms)
+Completed 200 OK in 6ms (Views: 4.6ms | ActiveRecord: 0.6ms | Allocations: 1225)
+
+
+Started GET "/meetings/19" for 127.0.0.1 at 2020-09-24 11:35:51 -0400
+Processing by MeetingsController#show as HTML
+  Parameters: {"id"=>"19"}
+  [1m[36mMeeting Load (0.8ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  ↳ app/controllers/meetings_controller.rb:9:in `show'
+Completed 404 Not Found in 51ms (ActiveRecord: 0.8ms | Allocations: 2556)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Meeting with 'id'=19):
+  
+app/controllers/meetings_controller.rb:9:in `show'
+Started GET "/meetings" for ::1 at 2020-09-24 11:36:47 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (28.4ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (1.17ms)
+Completed 200 OK in 176ms (Views: 54.9ms | ActiveRecord: 111.3ms | Allocations: 6688)
+
+
+Started GET "/meetings/19" for 127.0.0.1 at 2020-09-24 11:36:48 -0400
+Processing by MeetingsController#show as HTML
+  Parameters: {"id"=>"19"}
+  [1m[36mMeeting Load (0.9ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  ↳ app/controllers/meetings_controller.rb:9:in `show'
+Completed 404 Not Found in 3ms (ActiveRecord: 0.9ms | Allocations: 747)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Meeting with 'id'=19):
+  
+app/controllers/meetings_controller.rb:9:in `show'
+Started GET "/meetings/19" for 127.0.0.1 at 2020-09-24 11:36:55 -0400
+Processing by MeetingsController#show as HTML
+  Parameters: {"id"=>"19"}
+  [1m[36mMeeting Load (0.3ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  ↳ app/controllers/meetings_controller.rb:9:in `show'
+Completed 404 Not Found in 2ms (ActiveRecord: 0.3ms | Allocations: 638)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Meeting with 'id'=19):
+  
+app/controllers/meetings_controller.rb:9:in `show'
+Started GET "/meetings" for 127.0.0.1 at 2020-09-24 11:36:59 -0400
+Processing by MeetingsController#index as HTML
+  [1m[36mMeeting Load (0.4ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings"[0m
+  ↳ app/controllers/meetings_controller.rb:5:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (1.29ms)
+Completed 200 OK in 5ms (Views: 4.2ms | ActiveRecord: 0.4ms | Allocations: 1242)
+
+
+Started GET "/meetings/3" for 127.0.0.1 at 2020-09-24 11:37:02 -0400
+Processing by MeetingsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mMeeting Load (25.5ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/meetings_controller.rb:9:in `show'
+[active_model_serializers] Rendered MeetingSerializer with ActiveModelSerializers::Adapter::Attributes (0.5ms)
+Completed 200 OK in 29ms (Views: 1.3ms | ActiveRecord: 25.5ms | Allocations: 891)
+
+
