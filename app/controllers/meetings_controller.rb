@@ -37,5 +37,7 @@ class MeetingsController < ApplicationController
         render json: {}
     end
     
-    
+    def meeting_params
+        params.require(:meeting).permit(:date, :time, :link, :course_id)
+    end
 end
