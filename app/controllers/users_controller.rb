@@ -1,4 +1,7 @@
+require 'pry'
+
 class UsersController < ApplicationController
+    skip_before_action :authorized, only: [:index, :create]
 
     def index
         users = User.all
@@ -11,18 +14,15 @@ class UsersController < ApplicationController
     end
     
     def create
-        user = User.create(user_params)
-        render :json => user, each_serializer: UserSerializer
-        
-
-        # user = User.new(user_params)
-        # if user.valid?
-        # user.save
-        # redirect_to user_path(user)
-        # else
-        # flash[:my_errors] = user.errors.full_messages
-        # redirect_to new_user_path
-        # end
+        @user = User.create(user_params)
+        # binding.pry
+        if @user.valid?
+            @token = encode_token(user_id: @user.id)
+            render json: { user: UserSerializer.new(@user), jwt: @token }, status: :created
+            # render :json => @user, each_serializer: UserSerializer, status: :created
+        else
+            render json: { error: 'failed to create user' }, status: :not_acceptable
+        end
     end
     
     def update
@@ -41,8 +41,6 @@ class UsersController < ApplicationController
     private
     
     def user_params
-        params.require(:user).permit(:full_name, :email, :password_digest, :is_teacher)
+        params.permit(:full_name, :email, :password, :is_teacher)
     end
-    
-    
 end
