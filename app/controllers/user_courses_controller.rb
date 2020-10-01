@@ -1,4 +1,8 @@
+require 'pry'
+
 class UserCoursesController < ApplicationController
+    skip_before_action :authorized, only: [:index, :create, :destroy]
+
     def index
         user_courses = UserCourse.all
         render :json => user_courses, each_serializer: UserCourseSerializer
@@ -28,7 +32,8 @@ class UserCoursesController < ApplicationController
         render :json => user_course, each_serializer: UserCourseSerializer
     end
     
-    def delete
+    def destroy
+        # binding.pry
         user_course = UserCourse.find(params[:id])
         user_course.destroy
         render json: {}

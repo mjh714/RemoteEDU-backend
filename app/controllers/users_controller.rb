@@ -8,10 +8,14 @@ class UsersController < ApplicationController
         render :json => users, each_serializer: UserSerializer
     end
 
-    def show
-        user = User.find(params[:id])
-        render :json => user, each_serializer: UserSerializer
+    def profile
+        render json: { user: UserSerializer.new(current_user) }, status: :accepted
     end
+
+    # def show
+    #     user = User.find(params[:id])
+    #     render :json => user, each_serializer: UserSerializer
+    # end
     
     def create
         @user = User.create(user_params)
@@ -42,5 +46,6 @@ class UsersController < ApplicationController
     
     def user_params
         params.permit(:full_name, :email, :password, :is_teacher)
+        # params.require(:user).permit(:full_name, :email, :password, :password_confirmation, :is_teacher)
     end
 end

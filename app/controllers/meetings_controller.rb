@@ -1,5 +1,6 @@
 class MeetingsController < ApplicationController
-    
+    skip_before_action :authorized, only: [:index, :create, :show]
+
     def index
         meetings = Meeting.all
         render :json => meetings, each_serializer: MeetingSerializer

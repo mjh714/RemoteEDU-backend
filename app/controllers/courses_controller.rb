@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-
+    skip_before_action :authorized, only: [:index, :create, :show]
     def index
         courses = Course.all
         render :json => courses, each_serializer: CourseSerializer
