@@ -29,7 +29,7 @@ puts "creating courses"
 # Course.create(title: "Ruby 00", length: "3 weeks", student_count: 25, student_cap: 30)
 # Course.create(title: "Rails", length: "3 weeks", student_count: 25, student_cap: 30)
 # Course.create(title: "Almost Filled", length: "3 weeks", student_count: 28, student_cap: 30)
-5.times do
+20.times do
 Course.create(title: Faker::Educator.course_name, length: "3 weeks", student_count: rand(10..25), student_cap: 30)
 end
 
@@ -42,7 +42,7 @@ UserCourse.create(user_id: alex.id, course_id: Course.all.uniq.sample.id)
 end
 
 puts "creating meetings"
-10.times do 
+30.times do 
     Meeting.create(date: Faker::Date.between(from: '2020-09-23', to: '2020-11-25').to_s, time: Time.strptime("4:20 PM", "%I:%M %P").strftime("%H:%M"), link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", course_id: Course.all.sample.id)
 end
 # Meeting.create(date: "2021-04-20", time: "4:20 PM", link: "https://www.youtube.com/watch?v=d1JA-nh0IfI", course_id: Course.all.first.id)
